@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Smart Expense</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page">
+    <header class="topbar" role="banner">
+      <div class="brand-text">
+        <h1 class="app-title">Smart Expense</h1>
+        <p class="tag muted">Track • Analyze • Improve</p>
+      </div>
+
+      <div class="controls">
+        <nav class="chart-tabs" role="tablist" aria-label="Chart selector">
+          <button class="tab active" data-chart="line">Line</button>
+          <button class="tab" data-chart="bar">Bar</button>
+          <button class="tab" data-chart="pie">Pie</button>
+          <div class="tab-underline" aria-hidden></div>
+        </nav>
+
+        <div class="theme-switch">
+          <input id="themeToggle" type="checkbox" />
+          <label for="themeToggle" class="switch" title="Toggle theme">
+            <span class="icon sun">☀</span>
+            <span class="icon moon">☾</span>
+            <span class="knob" aria-hidden></span>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <!-- FILTER BAR (Phase 3) -->
+    <div class="filter-bar glass">
+      <div class="filter-left">
+        <div class="filter-item">
+          <span class="filter-icon">📂</span>
+          <select id="filterCategory"><option>All</option></select>
+        </div>
+
+        <div class="filter-item">
+          <span class="filter-icon">📅</span>
+          <input type="date" id="filterStart" />
+          <span class="dash">—</span>
+          <input type="date" id="filterEnd" />
+        </div>
+
+        <div class="filter-item">
+          <span class="filter-icon">💰</span>
+          <input id="filterMin" type="number" step="0.01" placeholder="min" />
+          <input id="filterMax" type="number" step="0.01" placeholder="max" />
+        </div>
+
+        <div class="filter-item">
+          <span class="filter-icon">🔍</span>
+          <input id="filterQ" type="text" placeholder="keyword" />
+        </div>
+      </div>
+
+      <div class="filter-right">
+        <button id="applyFilters" class="btn primary">Apply</button>
+        <button id="clearFilters" class="btn">Clear</button>
+        <button id="openAdd" class="btn primary">Add Expense</button>
+      </div>
+    </div>
+
+    <main class="container">
+      <!-- modal (center) -->
+      <div class="modal" id="modal" aria-hidden="true">
+        <div class="modal-card glass" role="dialog" aria-modal="true">
+          <h3 id="modalTitle">Add Expense</h3>
+          <form id="modalForm" onsubmit="return false;">
+            <label>Category
+              <input id="modalCategory" list="modalCats" required />
+              <datalist id="modalCats"></datalist>
+            </label>
+            <label>Amount (₹)
+              <input id="modalAmount" type="number" step="0.01" required />
+            </label>
+            <label>Date
+              <input id="modalDate" type="date" required />
+            </label>
+            <label>Note
+              <input id="modalNote" type="text" placeholder="optional" />
+            </label>
+
+            <div class="modal-actions">
+              <button id="saveBtn" class="btn primary">Save</button>
+              <button id="cancelBtn" class="btn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- stacked dashboard -->
+      <section class="dashboard">
+        <article class="card glass">
+          <h2>Total Spent</h2>
+          <div class="card-row">
+            <div class="big-number" id="totalAmount">₹0.00</div>
+            <div class="muted" id="periodLabel">All time</div>
+          </div>
+        </article>
+
+        <article class="card glass chart-card" id="lineCard">
+          <h2>Daily Spend</h2>
+          <div class="chart-wrap">
+            <canvas id="lineChart" class="chart-compact"></canvas>
+          </div>
+        </article>
+
+        <article class="card glass chart-card" id="barCard">
+          <h2>Category Totals</h2>
+          <div class="chart-wrap">
+            <canvas id="barChart" class="chart-compact"></canvas>
+          </div>
+        </article>
+
+        <article class="card glass chart-card" id="pieCard">
+          <h2>Spending Distribution</h2>
+          <div class="chart-wrap">
+            <canvas id="pieChart" class="chart-compact"></canvas>
+          </div>
+        </article>
+
+        <article class="card glass">
+          <h2>Recent Expenses</h2>
+          <div class="table-wrap">
+            <table id="expensesTable">
+              <thead>
+                <tr><th>Category</th><th>Amount</th><th>Date</th><th>Note</th><th></th></tr>
+              </thead>
+              <tbody><!-- filled by JS --></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer muted">Made with care • Portfolio demo</footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='static.js') }}"></script>
+</body>
+</html>
