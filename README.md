@@ -1,106 +1,113 @@
-🌟 SMART EXPENSE TRACKER
+# 🌟 SMART EXPENSE TRACKER
 
 A minimal, modern, and beautifully designed expense tracking web app.
 
-<p align="center"> <img src="https://via.placeholder.com/1000x250/1a1a2e/ffffff?text=SMART+EXPENSE+TRACKER" /> </p> <p align="center"> <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white"/> <img src="https://img.shields.io/badge/SQLite-044a64?style=for-the-badge&logo=sqlite&logoColor=white"/> <img src="https://img.shields.io/badge/Chart.js-F5788D?style=for-the-badge&logo=chartdotjs&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7E01D?style=for-the-badge&logo=javascript&logoColor=black"/> </p>
-🧾 Overview
+<p align="center">
+  <img src="screenshots/banner.png" width="100%"/>
+</p>
+
+---
+
+## 🧾 Overview
 
 Smart Expense Tracker helps you record and visualize your daily spending with:
 
-✔️ Light/Dark theme
-✔️ Add/Delete expenses
-✔️ Category-based filtering
-✔️ Responsive modern UI
-✔️ Beautiful analytics (Bar, Line, Pie charts)
-✔️ Smooth transitions and minimal aesthetics
+✔️ Light/Dark theme  
+✔️ Add/Delete expenses  
+✔️ Category-based filtering  
+✔️ Responsive modern UI  
+✔️ Beautiful analytics (Bar, Line, Pie charts)  
+✔️ Smooth transitions and minimal aesthetics  
 
-📂 Project Structure
+---
+
+## 📂 Project Structure
 smart-expense-tracker
 │
-├── app.py                 # Flask backend
+├── app.py # Flask backend
 │
 ├── instance/
-│   └── expenses.db        # SQLite database
+│ └── expenses.db # SQLite database
 │
 ├── static/
-│   ├── style.css          # Theme + layout
-│   └── script.js          # Frontend logic + charts
+│ ├── style.css # Theme + layout
+│ └── script.js # Frontend logic + charts
 │
 ├── templates/
-│   └── index.html         # UI layout
+│ └── index.html # UI layout
 │
-└── screenshots/           # Images used in README
+└── screenshots/ # Images used in README
 
-🖼️ Screenshots
-🌑 Dashboard — Dark Mode
 
-🌕 Dashboard — Light Mode
+---
 
-📊 Charts Overview
+## 🖼️ Screenshots
 
-➕ Adding Expense
+### 🌑 Dashboard — Dark Mode
+![Dark Mode](screenshots/dark.png)
 
-🗑️ Deleting Expense
+### 🌕 Dashboard — Light Mode
+![Light Mode](screenshots/light.png)
 
-📱 Mobile View
+### 📊 Charts Overview
+![Charts](screenshots/charts.png)
 
-🎨 Features
-🌗 Dual Theme
+### ➕ Adding Expense
+![Add](screenshots/add.png)
 
-Light theme: off-white + pastel blue + rose pink
+### 🗑️ Deleting Expense
+![Delete](screenshots/delete.png)
 
-Dark theme: navy + warm pink + lavender
+### 📱 Mobile View
+![Mobile](screenshots/mobile.png)
 
-Smooth crossfade transitions
+---
 
-💸 Expense Management
+## 🎨 Features
 
-Add category + amount
+### 🌗 Dual Theme
+- Light: Off-white, pastel blue, rose pink  
+- Dark: Navy blue, warm pink, lavender  
+- Smooth crossfade transitions  
 
-Automatic date
+### 💸 Expense Management
+- Add category + amount  
+- Auto date  
+- Delete instantly  
+- Real-time UI updates  
 
-Instant deletion
+### 📊 Analytics
+- **Bar chart** → Category totals  
+- **Line chart** → Daily expenses  
+- **Pie chart** → Category distribution  
 
-Real-time updates
+### 🔍 Filters
+- By date  
+- By category  
+- By amount  
 
-📊 Analytics
+### 📱 Fully Responsive
+Works beautifully on mobile, tablet & desktop.
 
-Built with Chart.js:
+---
 
-Bar chart → Category totals
+## ⚙️ How to Run Locally
 
-Line chart → Daily spending
-
-Pie chart → Category distribution
-
-🔍 Filters
-
-Filter by category
-
-Filter by date
-
-Filter by amount
-
-📱 Fully Responsive
-
-Clean UI across mobile, tablet, and desktop.
-
-⚙️ How to Run Locally
-1️⃣ Install Python
+### 1️⃣ Install Python
+```bash
 python --version
 
-2️⃣ (Optional) Create Virtual Environment
+2️⃣ Create Virtual Environment (Optional but recommended)
 python -m venv venv
 venv\Scripts\activate
 
-3️⃣ Install Requirements
+3️⃣ Install Dependencies
 pip install -r requirements.txt
 
 4️⃣ Run the App
 python app.py
 
-
-Open:
+Open in browser:
 
 👉 http://127.0.0.1:5000/
 
@@ -125,6 +132,5 @@ SQLite
 
 🤝 Contributions
 
-PRs are welcome — feel free to improve UI, charts, or add new features.
+PRs are welcome — improve UI, charts, or add new features.
 
-⭐ Like this project? Give it a star! ⭐
