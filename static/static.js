@@ -17,6 +17,15 @@ const API = {
 let charts = { line:null, bar:null, pie:null };
 let CATS = new Set();
 
+// toast function
+function showToast(message, isError = false) {
+  const toast = document.getElementById('messageToast');
+  toast.textContent = message;
+  toast.classList.toggle('error', isError);
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // UI refs
   const chk = document.getElementById('themeToggle');
@@ -100,8 +109,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const amt = parseFloat(modalAmount.value);
     const date = modalDate.value;
     const note = (modalNote.value || '').trim();
-    if(!cat || !date || isNaN(amt)){
-      modalAmount.animate([{ boxShadow:'0 0 0 rgba(0,0,0,0)' }, { boxShadow:'0 0 10px rgba(255,100,100,0.18)' }], { duration: 360 });
+    if(!cat){
+      showToast('Category is required.', true);
+      modalCategory.focus();
+      return;
+    }
+    if(isNaN(amt) || amt <= 0){
+      showToast('Amount must be a positive number.', true);
+      modalAmount.focus();
+      return;
+    }
+    if(!date){
+      showToast('Date is required.', true);
+      modalDate.focus();
       return;
     }
     const payload = { category: cat, amount: Number(amt), note: note, date: date };
@@ -113,9 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       await reloadAndRender();
       showModal(false);
+      showToast('Expense saved successfully.');
     } catch(err){
       console.error(err);
-      alert('Failed to save. See console.');
+      showToast('Failed to save. Check console for details.', true);
     }
   });
 

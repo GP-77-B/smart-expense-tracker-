@@ -96,16 +96,23 @@ Works beautifully on mobile, tablet & desktop.
 ### 1️⃣ Install Python
 ```bash
 python --version
+```
 
-2️⃣ Create Virtual Environment (Optional but recommended)
+### 2️⃣ Create Virtual Environment (Optional but recommended)
+```bash
 python -m venv venv
 venv\Scripts\activate
+```
 
-3️⃣ Install Dependencies
+### 3️⃣ Install Dependencies
+```bash
 pip install -r requirements.txt
+```
 
-4️⃣ Run the App
+### 4️⃣ Run the App
+```bash
 python app.py
+```
 
 Open in browser:
 

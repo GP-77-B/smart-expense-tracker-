@@ -71,18 +71,22 @@ def api_get_expenses():
         params.append(end)
     if min_amount:
         try:
-            _ = float(min_amount)
+            min_val = float(min_amount)
+            if min_val < 0:
+                return jsonify({'error': 'min amount cannot be negative'}), 400
             query += " AND amount >= ?"
-            params.append(min_amount)
-        except:
-            pass
+            params.append(min_val)
+        except ValueError:
+            return jsonify({'error': 'invalid min amount'}), 400
     if max_amount:
         try:
-            _ = float(max_amount)
+            max_val = float(max_amount)
+            if max_val < 0:
+                return jsonify({'error': 'max amount cannot be negative'}), 400
             query += " AND amount <= ?"
-            params.append(max_amount)
-        except:
-            pass
+            params.append(max_val)
+        except ValueError:
+            return jsonify({'error': 'invalid max amount'}), 400
     if q:
         query += " AND (category LIKE ? OR note LIKE ?)"
         params.append(f'%{q}%')
@@ -102,12 +106,21 @@ def api_add_expense():
     amount = data.get('amount', None)
     note = (data.get('note') or '').strip()
     date = data.get('date') or datetime.now().strftime('%Y-%m-%d')
-    if not category or amount is None:
-        return jsonify({'error': 'category and amount required'}), 400
+    if not category or not category.strip():
+        return jsonify({'error': 'category is required'}), 400
+    if amount is None:
+        return jsonify({'error': 'amount is required'}), 400
     try:
         amount = float(amount)
-    except:
+        if amount <= 0:
+            return jsonify({'error': 'amount must be positive'}), 400
+    except ValueError:
         return jsonify({'error': 'invalid amount'}), 400
+    try:
+        # Validate date format
+        datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        return jsonify({'error': 'invalid date format (use YYYY-MM-DD)'}), 400
     conn = get_db()
     cur = conn.cursor()
     cur.execute("INSERT INTO expenses (category, amount, note, date) VALUES (?,?,?,?)",
@@ -127,12 +140,18 @@ def api_edit_expense(exp_id):
     amount = data.get('amount', None)
     note = (data.get('note') or '').strip()
     date = data.get('date', None)
-    if not category or amount is None or not date:
-        return jsonify({'error': 'category, amount, date required'}), 400
+    if not category or not category.strip() or amount is None or not date:
+        return jsonify({'error': 'category, amount, and date are required'}), 400
     try:
         amount = float(amount)
-    except:
+        if amount <= 0:
+            return jsonify({'error': 'amount must be positive'}), 400
+    except ValueError:
         return jsonify({'error': 'invalid amount'}), 400
+    try:
+        datetime.strptime(date, '%Y-%m-%d')
+    except ValueError:
+        return jsonify({'error': 'invalid date format (use YYYY-MM-DD)'}), 400
     conn = get_db()
     cur = conn.cursor()
     cur.execute("UPDATE expenses SET category=?, amount=?, note=?, date=? WHERE id=?",
