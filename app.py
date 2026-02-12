@@ -3,7 +3,7 @@ import sqlite3
 from datetime import datetime
 import os
 
-DB_PATH = os.path.join('instance', 'expenses.db')
+DB_PATH = 'expenses.db'
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
 
@@ -18,7 +18,6 @@ def get_db():
     return db
 
 def init_db():
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
@@ -175,5 +174,5 @@ def api_delete_expense(exp_id):
 
 
 if __name__ == '__main__':
-    init_db()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
