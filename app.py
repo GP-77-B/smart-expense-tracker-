@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, jsonify, g
+from flask_cors import CORS
 import sqlite3
 from datetime import datetime
 import os
@@ -6,6 +7,7 @@ import os
 DB_PATH = 'expenses.db'
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
+CORS(app)
 
 
 # --- Database helpers ---
