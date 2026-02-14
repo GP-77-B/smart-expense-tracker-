@@ -4,22 +4,52 @@ import sqlite3
 from datetime import datetime
 import os
 
-DB_PATH = 'expenses.db'
-
 app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)
+
+
+def resolve_db_path():
+    configured_path = os.environ.get('DB_PATH')
+    if configured_path:
+        return configured_path
+
+    candidates = [
+        os.path.join(app.instance_path, 'expenses.db'),
+        '/tmp/expenses.db',
+        'expenses.db',
+    ]
+
+    for candidate in candidates:
+        db_dir = os.path.dirname(candidate)
+        if not db_dir:
+            return candidate
+        try:
+            os.makedirs(db_dir, exist_ok=True)
+            return candidate
+        except OSError:
+            continue
+
+    return 'expenses.db'
+
+
+DB_PATH = resolve_db_path()
 
 
 # --- Database helpers ---
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+        db_dir = os.path.dirname(DB_PATH)
+        if db_dir:
+            os.makedirs(db_dir, exist_ok=True)
         db = g._database = sqlite3.connect(DB_PATH)
         db.row_factory = sqlite3.Row
     return db
 
 def init_db():
+    db_dir = os.path.dirname(DB_PATH)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     cursor.execute('''
@@ -33,6 +63,10 @@ def init_db():
     ''')
     conn.commit()
     conn.close()
+
+
+with app.app_context():
+    init_db()
 
 @app.teardown_appcontext
 def close_connection(exception):

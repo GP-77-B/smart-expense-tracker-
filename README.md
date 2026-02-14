@@ -63,6 +63,17 @@ smart-expense-tracker
 
 ---
 
+
+## 🚀 Deployment note (Railway / cloud hosts)
+
+If your host uses a read-only app directory, configure the database path to a writable location:
+
+```bash
+DB_PATH=/tmp/expenses.db
+```
+
+Set this as an environment variable in Railway (`Variables` tab), then redeploy.
+
 ## 🎨 Features
 
 ### 🌗 Dual Theme
